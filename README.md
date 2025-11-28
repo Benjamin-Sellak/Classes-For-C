@@ -31,7 +31,8 @@ TBD
 
 ## Known Limitations
 
-There are some limitations to Classes For C that the user should be aware of.
+Classes For C was nothing that I created with the intend of publishing a comprehensive OOP extension for C. Rather, this started as a small helper that I created to support my needs in a bigger project and then was reused and refined over time in different private and professional projects.  
+A colleague suggested to publish this header, so I just stripped any domain-specific identifiers and styleguide quirks and provide it as-is. Therefore, there are some limitations to Classes For C that the user should be aware of.
 
 **Scattered Memory.** It is important to understand what is referred to as 'object' in the scope of this project, as the word here is used to talk about the high-level OOP-borne concept of one instance of a class.  
 Such an object is not an object in the sense of the C standard, which is a region of data storage in the execution environment. In fact, when instaniating an object with `NEW`, there are several objects in the C sense created: The class wrapper struct, the member struct and any additional memory that might be dynamically allocated in the user-defined Init-function.  
@@ -39,6 +40,7 @@ As a consequence, usage of the `sizeof` operator on an object will most likely n
 
 **No standard way of object copying.** Following up on the last point, `memcpy()` calls with an object as source are rarely useful and there is currently no standardized way of copying object instances. It would be easy to add a function akin to NEW that creates a shallow copy of an object (Class wrapper and member struct), however to create a deep copy likely requires an additional mandatory user-defined Copy-function even if it is not needed.  
 As copying objects almost never was a need in my personal projects, the decision was made to not implement a `COPY()` function, so that the developer of a new class is not burdened with writing even more boilerplate code.  
+If you can think of a good way to include a `COPY()`-functionality which enables a standardized deep copy interface and allows the designer of a class to only provide a custom copy function if it is needed, feel free to submit your pull request!  
 
 Other features typically associated with OOP notably absent:  
 
