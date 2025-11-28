@@ -17,7 +17,17 @@ Classes For C is a small project - it really is just a single header - that prov
 
 ## Usage
 
-TBD
+TBD  
+
+### Class declaration
+
+### Class definition
+
+### Instantiating classes
+
+### Invoking methods
+
+### Deallocation
 
 ## Known Limitations
 
