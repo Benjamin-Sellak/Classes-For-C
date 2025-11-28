@@ -15,12 +15,15 @@ static void Vehicle_Init(Vehicle* pInst, const Vehicle_Cfg* pCfg)
 {
     pInst->pMembers->TopSpeed = pCfg->TopSpeed;
     pInst->pMembers->CurrentSpeed = 0;
+    printf("A new vehicle with a top speed of %d is constructed.\n", 
+        pCfg->TopSpeed);
 }
 
 // Deinit method as per CLASSDEF contract
 static void Vehicle_Deinit(Vehicle* pInst)
 {
     (void) pInst; // nothing to deinitialize
+    printf("The vehicle is deconstructed.\n");
 }
 
 // Vtable Init method as per CLASSDEF contract
@@ -60,12 +63,14 @@ static void Car_Fuel(Car* pInst);
 static void Car_Init(Car* pInst, const Car_Cfg* pCfg)
 {
     pInst->pMembers->Seats = pCfg->Seats;
+    printf("A new car with %d seats is constructed.\n", pCfg->Seats);
 }
 
 // Deinit method as per CLASSDEF contract
 static void Car_Deinit(Car* pInst)
 {
     (void) pInst; // nothing to deinitialize
+    printf("The car is deconstructed.\n");
 }
 
 // Vtable Init method as per CLASSDEF contract
@@ -114,11 +119,13 @@ static void Racecar_Init(Racecar* pInst, const Racecar_Cfg* pCfg)
     char* pDriver = calloc(NameLength, sizeof *pDriver);
     (void) memcpy(pDriver, pCfg->pDriver, (NameLength - 1));
     pInst->pMembers->pDriver = pDriver;
+    printf("%s's racecar is constructed\n", pInst->pMembers->pDriver);
 }
 
 // Deinit method as per CLASSDEF contract
 static void Racecar_Deinit(Racecar* pInst)
 {
+    printf("The racecar is deconstructed.\n");
     // here, any memory allocated in _Init must be freed again
     free(pInst->pMembers->pDriver);
 }
@@ -149,6 +156,7 @@ int main(void)
 {
     printf("Demonstration of classes.h\n");
     
+    printf("\n=== Vehicle instantiation ===\n");
     // define constructor arguments for a new vehicle object
     Vehicle_Cfg VehicleCfg = {.TopSpeed = 390};
     // instantiated a new vehicle object
@@ -160,6 +168,7 @@ int main(void)
     // delete the object and free the memory it occupied
     DELETE(pV);
 
+    printf("\n=== Car instantiation ===\n");
     // now, define the constructor arguments for a Car object which inherits 
     // from Vehicle
     Car_Cfg CarCfg = {.Base = {.TopSpeed = 250}, .Seats = 4};
@@ -182,6 +191,8 @@ int main(void)
     VCALL(pC, Fuel);
     // delete the object and free the memory it occupied
     DELETE(pC);
+    
+    printf("\n=== Racecar instantiation ===\n");
 
     // Now define constructor arguments for a racecar. The constructor must
     // initialize all the members of the base classes' cfg structs, too

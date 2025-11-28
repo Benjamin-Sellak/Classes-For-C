@@ -26,7 +26,7 @@
 #define NEW(type, pCfg) type ## _NewOuter (pCfg)
 
 /// \brief deletes an object that was instantiated with new
-#define DELETE(pInst) (((_GenericClass*)pInst)->_Delete(pInst))
+#define DELETE(pInst) (((__GenericClass__*)pInst)->__DeleteClass__(pInst))
 
 /// \brief casts an object of parent type to child type
 #define GET_CHILDCLASS(ptr, type, member) ({                                   \
@@ -85,7 +85,7 @@ type * type ## _NewOuter(const _CFG_TYPENAME(type)* pCfg)                      \
 {                                                                              \
     type * pInst = calloc(sizeof(type), 1);                                    \
     type ## _NewInner(pInst, pCfg);                                            \
-    ((_GenericClass*)pInst)->_Delete = type ## _Delete;                        \
+    ((__GenericClass__*)pInst)->__DeleteClass__ = type ## _Delete;             \
     return pInst;                                                              \
 }                                                                              \
 static void type ## _Deinit(type * pInst);                                     \
@@ -183,7 +183,7 @@ extern void type ## _Dtor(type * pInst);
 /// \brief helper struct for safe typecast on delete calls
 typedef struct
 {
-    const void(* _Delete)(void* pInst);
-} _GenericClass;
+    const void(* __DeleteClass__)(void* pInst);
+} __GenericClass__;
 
 #endif /* Classes.h */
